@@ -1,0 +1,138 @@
+#端口號
+server:
+  port: 8091
+#項目名
+spring:
+  profiles:
+    active: $[spring.profile.active] #此处由maven的环境选择决定
+  application:
+    name: xmzy-open-server
+  #數據源
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:mysql://8.129.121.201:3307/xmzy_core?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          username: xmzy_webt
+          password: Xmzy@mysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        data:
+          url: jdbc:mysql://8.129.121.201:3307/xmzy_mysql_data01?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          username: xmzy_servers_01
+          password: Xmzy@mysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      ## 最小空闲连接数量
+      minimum-idle: 10
+      ## 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 18000
+      ## 连接池最大连接数，默认是10
+      maximum-pool-size: 1000
+      ## 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      ## 连接池母子
+      pool-name: OfficialWebsiteHikariCP
+      ## 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      ## 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 300000
+      connection-test-query: SELECT 1
+  #zookerper
+  cloud:
+    zookeeper:
+      connect-string: 127.0.0.1:2181
+  #时间日期格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  main:
+    allow-bean-definition-overriding: true
+
+  #redis
+  redis:
+    host: localhost
+    lettuce:
+      pool:
+        # 连接池最大连接数(使用负数表示没有限制)
+        max-active: 100
+        # 连接池中的最大空闲连接
+        max-idle: 20
+        # 连接池最大阻塞等待时间（使用负数表示没有限制）
+        max-wait: 30000
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    port: 6379
+    # 连接超时
+    timeout: 3000
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB
+  kafka:
+    bootstrap-servers: 192.168.0.11:9092,192.168.0.9:9092,192.168.0.10:9092
+    consumer:
+      group-id: xmzy_test
+      group-name: xmzy_test
+      properties: 
+        spring.json.trusted.packages: "*"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    #kafka生产者配置
+    producer:
+      #重试次数 Integer.MAX_VALUE
+      retries: 2147483647
+      #batch大小，默认16k。也就是说只有达到16k才会发送数据出去
+      batch-size: 16384
+      #提交延时1s，即收到数据后没有达到batch也会在1s将数据发送出去
+      properties:
+        spring.json.trusted.packages: "*"
+        linger:
+          ms:
+            1000
+      #内存缓冲区大小，默认32M。待压测后重新标定
+      buffer-memory: 67108864
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+#雪花算法配置
+SnowFlake:
+  dataCenterID: 1
+  machineID: 2
+
+#mybatis
+mybatis:
+  configuration:
+    cache-enabled: true
+    lazy-loading-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  type-aliases-package: com.xmzy.**.entity
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#pagehelper
+pagehelper:
+  helper-dialect: mysql
+  page-size-zero: true
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+
+#token配置
+token: 
+  sm:
+    #SM加密开启状态 on代表开启 off代表关闭
+    sts: "on"
+    #SM加密私钥地址
+    private-key-resource: https://xmzy-app.oss-cn-shenzhen.aliyuncs.com/pem/privateKey.pem

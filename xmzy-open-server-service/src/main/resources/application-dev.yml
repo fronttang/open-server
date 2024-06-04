@@ -1,0 +1,46 @@
+spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: xmzy_test
+      group-name: xmzy_test
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:mysql://8.129.121.201:3307/xmzy_core?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          username: xmzy_webt
+          password: Xmzy@mysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        data:
+          url: jdbc:mysql://8.129.121.201:3307/xmzy_mysql_data01?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          username: xmzy_servers_01
+          password: Xmzy@mysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  cloud:
+    zookeeper:
+      connect-string: 127.0.0.1:2181
+
+  redis:
+    host: localhost
+    port: 6379
+
+  servlet:
+    multipart: 
+      max-file-size: 3MB
+      max-request-size: 3MB
+
+ribbon:
+  ReadTimeout: 600000
+  ConnectTimeout: 600000
+
+bank:
+  ghb:
+    appId: 10207023
+    parentMerchantId: 518510003
+    host: http://183.63.131.117:8803
+    publicKey: FEA200BAB29D10ADB18EF2F305C75360D610AA50A3F48DA17FC308B42265A658F0FCF4E7FC6EE7AE075B4009D17E969E748641A586E4A5647DEDA1FB31BD6268
+    privateKey: 0080B55D55A89CE2E4C46428B2D3040829091BB2D8D39A8CB987847C5558ABBCFB

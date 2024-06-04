@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: xmzy-open-server
+  name: xmzy-open-server
+  namespace: ${PROFILE}
+spec:
+  selector:
+    matchLabels:
+      app: xmzy-open-server
+  template:
+    metadata:
+      labels:
+        app: xmzy-open-server
+    spec:
+      nodeSelector:
+        profile: ${PROFILE}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: profile
+                operator: In
+                values:
+                - ${PROFILE}
+      containers:
+        - image: ${IMAGE}
+          imagePullPolicy: Always
+          name: xmzy-open-server
+          volumeMounts:
+            - mountPath: /xmzy/config/
+              name: config-path
+          ports:
+            - containerPort: 8091
+              name: http
+              protocol: TCP
+          env:
+            - name: aliyun_logs_xmzy-open-server
+              value: stdout
+      volumes:
+        - configMap:
+            name: xmzy-open-server-config
+          name: config-path
+          

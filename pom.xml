@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+        <artifactId>xmzy-parent</artifactId>
+        <groupId>com.xmzy</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.xmzy.server</groupId>
+	<artifactId>xmzy-open-server</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<modules>
+        <module>xmzy-open-server-api</module>
+        <module>xmzy-open-server-service</module>
+    </modules>
+
+	<description>银行接口、联合电服接口对接服务</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.xmzy</groupId>
+			<artifactId>xmzy-base</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
